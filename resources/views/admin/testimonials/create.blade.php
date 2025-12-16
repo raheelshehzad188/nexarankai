@@ -1,0 +1,71 @@
+@extends('admin.layout')
+
+@section('title', 'Create Testimonial')
+
+@section('content')
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Create New Testimonial</h2>
+    <a href="{{ route('admin.testimonials.index') }}" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Back
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form action="{{ route('admin.testimonials.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="mb-3">
+                <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
+                @error('name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="review" class="form-label">Review <span class="text-danger">*</span></label>
+                <textarea class="form-control @error('review') is-invalid @enderror" id="review" name="review" rows="5" required>{{ old('review') }}</textarea>
+                @error('review')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="rating" class="form-label">Rating <span class="text-danger">*</span></label>
+                <select class="form-select @error('rating') is-invalid @enderror" id="rating" name="rating" required>
+                    <option value="1" {{ old('rating') == '1' ? 'selected' : '' }}>1 Star</option>
+                    <option value="2" {{ old('rating') == '2' ? 'selected' : '' }}>2 Stars</option>
+                    <option value="3" {{ old('rating') == '3' ? 'selected' : '' }}>3 Stars</option>
+                    <option value="4" {{ old('rating') == '4' ? 'selected' : '' }}>4 Stars</option>
+                    <option value="5" {{ old('rating', '5') == '5' ? 'selected' : '' }}>5 Stars</option>
+                </select>
+                @error('rating')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Image</label>
+                <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept="image/*">
+                @error('image')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="status" name="status" value="1" {{ old('status', true) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="status">
+                        Active
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save"></i> Create Testimonial
+            </button>
+        </form>
+    </div>
+</div>
+@endsection
+
