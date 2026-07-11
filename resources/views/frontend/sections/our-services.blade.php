@@ -1,12 +1,14 @@
 @php
+    $settings = \App\Models\SiteSetting::getSettings();
+    $siteName = $settings->site_name ?? 'Pro Clean AC';
     $data = $section->data ?? [];
     $shortHeading = $data['short_heading'] ?? 'Our Services';
-    $mainHeading = $data['main_heading'] ?? 'What Pro Clean AC can do for you.';
+    $mainHeading = $data['main_heading'] ?? 'What ' . $siteName . ' can do for you.';
     $selectedServiceIds = $data['service_ids'] ?? [];
     
     // Get services from database
     if (empty($selectedServiceIds)) {
-        $services = \App\Models\Service::getActive();
+        $services = \App\Models\Service::where('status', true)->orderBy('sort_order')->orderBy('title')->get();
     } else {
         $services = \App\Models\Service::whereIn('id', $selectedServiceIds)
             ->where('status', true)
@@ -14,7 +16,11 @@
             ->get();
     }
     
-    $assets_url = asset('assets/dubai/www.proclean-ac.com');
+    $servicePageMap = $data['service_page_map'] ?? [];
+    $mapPageIds = array_filter(array_values($servicePageMap));
+    $pageSlugs = empty($mapPageIds)
+        ? collect()
+        : \App\Models\Page::whereIn('id', $mapPageIds)->pluck('slug', 'id');
     
     // Helper function to get service page URL by finding matching page
     $getServiceUrl = function($serviceTitle) {
@@ -58,13 +64,29 @@
                 <div class="w-layout-grid image-link-box-grid halves">
                     @foreach($services as $service)
                         <div class="container-small align-center">
-                            <a href="{{ $getServiceUrl($service->title) }}" class="image-link-box w-inline-block">
+                            @php
+                                if ($service->slug) {
+                                    $serviceUrl = $service->getUrl();
+                                } elseif (isset($servicePageMap[$service->id])) {
+                                    $mappedPageId = $servicePageMap[$service->id];
+                                    $mappedSlug = $mappedPageId && $pageSlugs->has($mappedPageId) ? $pageSlugs[$mappedPageId] : null;
+                                    $serviceUrl = $mappedSlug ? '/' . $mappedSlug : $getServiceUrl($service->title);
+                                } else {
+                                    $serviceUrl = $getServiceUrl($service->title);
+                                }
+                            @endphp
+                            <a href="{{ $serviceUrl }}" class="image-link-box w-inline-block">
                                 @if($service->image)
                                     @php
-                                        // Check if image path starts with 'imgs/' (from assets) or is a storage path
-                                        $imagePath = str_starts_with($service->image, 'imgs/') 
-                                            ? asset('assets/dubai/www.proclean-ac.com/' . $service->image)
-                                            : asset('storage/' . $service->image);
+                                        // Check if image path starts with 'imgs/' (from assets) or uploads path
+                                        if (str_starts_with($service->image, 'imgs/')) {
+                                            $imagePath = asset('assets/dubai/www.proclean-ac.com/' . $service->image);
+                                        } else {
+                                            $normalizedPath = \Illuminate\Support\Str::startsWith($service->image, 'uploads/')
+                                                ? $service->image
+                                                : 'uploads/' . ltrim($service->image, '/');
+                                            $imagePath = asset($normalizedPath);
+                                        }
                                     @endphp
                                     <img src="{{ $imagePath }}" 
                                          alt="{{ $service->title }}" 
@@ -78,7 +100,7 @@
                                 <div class="boxed-2 square-top boxed-small">
                                     <div class="image-link-box-content">
                                         <div>{{ $service->title }}</div>
-                                        <img src="{{ $assets_url }}/../imgs/5f32dc906194422c18e96ec0_icon-chevron-right.svg" alt="icon chevron right"/>
+                                        <img src="{{ asset('assets/dubai/imgs/5f32dc906194422c18e96ec0_icon-chevron-right.svg') }}" alt="icon chevron right"/>
                                     </div>
                                 </div>
                             </a>

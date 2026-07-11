@@ -28,8 +28,20 @@
                 <tr>
                     <td>{{ $client->name }}</td>
                     <td>
-                        @if($client->logo)
-                            <img src="{{ asset('storage/' . $client->logo) }}" alt="{{ $client->name }}" style="max-height: 50px;">
+                            @php
+                            $logoUrl = '';
+                            if ($client->logo_source === 'url' && $client->logo_url) {
+                                $logoUrl = $client->logo_url;
+                            } elseif ($client->logo_source === 'upload' && $client->logo) {
+                                $logoPath = \Illuminate\Support\Str::startsWith($client->logo, 'uploads/')
+                                    ? $client->logo
+                                    : 'uploads/' . ltrim($client->logo, '/');
+                                $logoUrl = asset($logoPath);
+                            }
+                            @endphp
+                        @if($logoUrl)
+                            <img src="{{ $logoUrl }}" alt="{{ $client->name }}" style="max-height: 50px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                            <span class="text-muted" style="display: none;">No logo</span>
                         @else
                             <span class="text-muted">No logo</span>
                         @endif

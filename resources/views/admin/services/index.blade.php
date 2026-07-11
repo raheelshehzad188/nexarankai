@@ -16,9 +16,10 @@
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Slug / URL</th>
                     <th>Status</th>
-                    <th>Created</th>
+                    <th>Sort</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -26,7 +27,12 @@
                 @forelse($services as $service)
                 <tr>
                     <td>{{ $service->title }}</td>
-                    <td>{{ Str::limit($service->description, 50) }}</td>
+                    <td>{{ $service->serviceCategory?->name ?? '-' }}</td>
+                    <td>
+                        <a href="{{ $service->getUrl() }}" target="_blank" class="text-decoration-none">
+                            /services/{{ $service->slug }}
+                        </a>
+                    </td>
                     <td>
                         @if($service->status)
                             <span class="badge bg-success">Active</span>
@@ -34,7 +40,7 @@
                             <span class="badge bg-secondary">Inactive</span>
                         @endif
                     </td>
-                    <td>{{ $service->created_at->format('M d, Y') }}</td>
+                    <td>{{ $service->sort_order }}</td>
                     <td>
                         <a href="{{ route('admin.services.edit', $service) }}" class="btn btn-sm btn-warning">
                             <i class="bi bi-pencil"></i>
@@ -50,7 +56,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="text-center">No services found.</td>
+                    <td colspan="6" class="text-center">No services found.</td>
                 </tr>
                 @endforelse
             </tbody>
@@ -58,4 +64,3 @@
     </div>
 </div>
 @endsection
-

@@ -49,7 +49,12 @@
             <div class="mb-3">
                 <label class="form-label">Current Image</label>
                 <div>
-                    <img src="{{ asset('storage/' . $testimonial->image) }}" alt="{{ $testimonial->name }}" style="max-height: 200px;">
+                    @php
+                        $imagePath = \Illuminate\Support\Str::startsWith($testimonial->image, 'uploads/')
+                            ? $testimonial->image
+                            : 'uploads/' . ltrim($testimonial->image, '/');
+                    @endphp
+                    <img src="{{ asset($imagePath) }}" alt="{{ $testimonial->name }}" style="max-height: 200px;">
                 </div>
             </div>
             @endif

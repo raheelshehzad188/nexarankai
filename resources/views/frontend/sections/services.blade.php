@@ -11,7 +11,12 @@
                     <div class="col-md-4 mb-4">
                         <div class="card h-100 shadow-sm">
                             @if($service->image)
-                                <img src="{{ asset('storage/' . $service->image) }}" class="card-img-top" alt="{{ $service->title }}" style="height: 200px; object-fit: cover;">
+                                @php
+                                    $imagePath = \Illuminate\Support\Str::startsWith($service->image, 'uploads/')
+                                        ? $service->image
+                                        : 'uploads/' . ltrim($service->image, '/');
+                                @endphp
+                                <img src="{{ asset($imagePath) }}" class="card-img-top" alt="{{ $service->title }}" style="height: 200px; object-fit: cover;">
                             @endif
                             <div class="card-body">
                                 <h5 class="card-title">{{ $service->title }}</h5>

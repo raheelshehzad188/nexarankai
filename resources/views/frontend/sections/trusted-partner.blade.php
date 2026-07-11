@@ -1,23 +1,34 @@
 @php
+    $settings = \App\Models\SiteSetting::getSettings();
+    $siteName = $settings->site_name ?? 'Pro Clean AC';
     $data = $section->data ?? [];
     $shortHeading = $data['short_heading'] ?? 'A trusted partner';
     $mainHeading = $data['main_heading'] ?? 'We are NADCA Accredited';
-    $content = $data['content'] ?? '';
+    $content = $data['content'] ?? $siteName . ' is a member of the National Air Duct Cleaners Association (NADCA) and adheres to stringent industry standards and best practices in HVAC system cleaning and restoration.';
     $image = $data['image'] ?? '';
     $imageUrl = $data['image_url'] ?? '';
-    $assets_url = asset('assets/dubai/www.proclean-ac.com');
+    $imageAlt = $data['image_alt'] ?? 'Duct cleaning Dubai';
+    $defaultImage = 'https://cdn.prod.website-files.com/5f32dc8fbfcb095f82c1b9ec/65c9cf5e94615ead720fcb8c_NADCA%20PRO%20CLEAN%20%20(2).png';
+    $defaultSrcset = [
+        'https://cdn.prod.website-files.com/5f32dc8fbfcb095f82c1b9ec/65c9cf5e94615ead720fcb8c_NADCA%20PRO%20CLEAN%20%20(2)-p-500.png 500w',
+        'https://cdn.prod.website-files.com/5f32dc8fbfcb095f82c1b9ec/65c9cf5e94615ead720fcb8c_NADCA%20PRO%20CLEAN%20%20(2)-p-800.png 800w',
+        'https://cdn.prod.website-files.com/5f32dc8fbfcb095f82c1b9ec/65c9cf5e94615ead720fcb8c_NADCA%20PRO%20CLEAN%20%20(2).png 1080w',
+    ];
     
     // Determine image source
     $imageSource = $data['image_source'] ?? 'url'; // 'url' or 'upload'
     $finalImageUrl = '';
     
     if ($imageSource === 'upload' && $image) {
-        $finalImageUrl = asset('storage/' . $image);
+        $normalizedImage = \Illuminate\Support\Str::startsWith($image, 'uploads/')
+            ? $image
+            : 'uploads/' . ltrim($image, '/');
+        $finalImageUrl = asset($normalizedImage);
     } elseif ($imageSource === 'url' && $imageUrl) {
         $finalImageUrl = $imageUrl;
     } elseif (!$image && !$imageUrl) {
         // Default NADCA image
-        $finalImageUrl = $assets_url . '/../imgs/65c9cf5e94615ead720fcb8c_NADCA%20PRO%20CLEAN%20%20(2).png';
+        $finalImageUrl = $defaultImage;
     }
 @endphp
 
@@ -43,10 +54,14 @@
                 <img src="{{ $finalImageUrl }}" 
                      width="360" 
                      sizes="(max-width: 479px) 100vw, 360px"
-                     alt="{{ $mainHeading }}" 
+                     @if($finalImageUrl === $defaultImage)
+                        srcset="{{ implode(', ', $defaultSrcset) }}"
+                     @endif
+                     alt="{{ $imageAlt ?: $mainHeading }}" 
                      class="rounded-right-large shadow-large"/>
             </div>
         @endif
     </div>
 </div>
+
 

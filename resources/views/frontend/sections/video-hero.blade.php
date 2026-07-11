@@ -19,12 +19,11 @@
         }
     }
     
-    $assets_url = asset('assets/dubai/www.proclean-ac.com');
 @endphp
 
 <div class="hero-section-3">
     @if($videoSource === 'youtube' && $videoId)
-        <div data-poster-url="{{ $assets_url }}/../imgs/60d1a0d2a9fad2bc8bc60d22_ProCleanAC-HomepageVideo-transcode-poster-00001.jpg" 
+        <div data-poster-url="{{ asset('assets/dubai/imgs/60d1a0d2a9fad2bc8bc60d22_ProCleanAC-HomepageVideo-transcode-poster-00001.jpg') }}" 
              data-video-urls="https://www.youtube.com/embed/{{ $videoId }}" 
              data-autoplay="true" 
              data-loop="true" 
@@ -40,28 +39,34 @@
             ></iframe>
         </div>
     @elseif($videoSource === 'mp4' && $mp4Link)
-        <div data-poster-url="{{ $assets_url }}/../imgs/60d1a0d2a9fad2bc8bc60d22_ProCleanAC-HomepageVideo-transcode-poster-00001.jpg" 
+        <div data-poster-url="{{ asset('assets/dubai/imgs/60d1a0d2a9fad2bc8bc60d22_ProCleanAC-HomepageVideo-transcode-poster-00001.jpg') }}" 
              data-video-urls="{{ $mp4Link }},{{ str_replace('.mp4', '.webm', $mp4Link) }}" 
              data-autoplay="true" 
              data-loop="true" 
              data-wf-ignore="true" 
              data-beta-bgvideo-upgrade="false" 
              class="background-video w-background-video w-background-video-atom">
-            <video id="hero-video-{{ $section->id }}" autoplay loop muted playsinline style="background-image:url({{ $assets_url }}/../imgs/60d1a0d2a9fad2bc8bc60d22_ProCleanAC-HomepageVideo-transcode-poster-00001.jpg)" data-wf-ignore="true" data-object-fit="cover">
+            <video id="hero-video-{{ $section->id }}" autoplay loop muted playsinline style="background-image:url({{ asset('assets/dubai/imgs/60d1a0d2a9fad2bc8bc60d22_ProCleanAC-HomepageVideo-transcode-poster-00001.jpg') }})" data-wf-ignore="true" data-object-fit="cover">
                 <source src="{{ $mp4Link }}" data-wf-ignore="true"/>
                 <source src="{{ str_replace('.mp4', '.webm', $mp4Link) }}" data-wf-ignore="true"/>
             </video>
         </div>
     @elseif($videoSource === 'upload' && $videoFile)
-        <div data-poster-url="{{ $assets_url }}/../imgs/60d1a0d2a9fad2bc8bc60d22_ProCleanAC-HomepageVideo-transcode-poster-00001.jpg" 
-             data-video-urls="{{ asset('storage/' . $videoFile) }}" 
+        @php
+            $normalizedVideo = \Illuminate\Support\Str::startsWith($videoFile, 'uploads/')
+                ? $videoFile
+                : 'uploads/' . ltrim($videoFile, '/');
+            $videoAsset = asset($normalizedVideo);
+        @endphp
+        <div data-poster-url="{{ asset('assets/dubai/imgs/60d1a0d2a9fad2bc8bc60d22_ProCleanAC-HomepageVideo-transcode-poster-00001.jpg') }}" 
+             data-video-urls="{{ $videoAsset }}" 
              data-autoplay="true" 
              data-loop="true" 
              data-wf-ignore="true" 
              data-beta-bgvideo-upgrade="false" 
              class="background-video w-background-video w-background-video-atom">
-            <video id="hero-video-{{ $section->id }}" autoplay loop muted playsinline style="background-image:url({{ $assets_url }}/../imgs/60d1a0d2a9fad2bc8bc60d22_ProCleanAC-HomepageVideo-transcode-poster-00001.jpg)" data-wf-ignore="true" data-object-fit="cover">
-                <source src="{{ asset('storage/' . $videoFile) }}" data-wf-ignore="true"/>
+            <video id="hero-video-{{ $section->id }}" autoplay loop muted playsinline style="background-image:url({{ asset('assets/dubai/imgs/60d1a0d2a9fad2bc8bc60d22_ProCleanAC-HomepageVideo-transcode-poster-00001.jpg') }})" data-wf-ignore="true" data-object-fit="cover">
+                <source src="{{ $videoAsset }}" data-wf-ignore="true"/>
             </video>
         </div>
     @endif

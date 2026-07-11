@@ -60,7 +60,7 @@
 
             <div class="mb-3" id="url_field" style="display: none;">
                 <label for="url" class="form-label">URL</label>
-                <input type="url" class="form-control @error('url') is-invalid @enderror" id="url" name="url" value="{{ old('url', $menu->url) }}" placeholder="https://example.com">
+                <input type="text" class="form-control @error('url') is-invalid @enderror" id="url" name="url" value="{{ old('url', $menu->url) }}" placeholder="https://example.com">
                 @error('url')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror

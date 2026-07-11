@@ -9,6 +9,9 @@ class ClientLogo extends Model
     protected $fillable = [
         'name',
         'logo',
+        'logo_url',
+        'logo_source',
+        'logo_alt',
         'website',
         'sort_order',
         'status',

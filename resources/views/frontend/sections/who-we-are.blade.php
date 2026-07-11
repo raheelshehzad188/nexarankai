@@ -1,7 +1,9 @@
 @php
+    $settings = \App\Models\SiteSetting::getSettings();
+    $siteName = $settings->site_name ?? 'Pro Clean AC';
     $data = $section->data ?? [];
     $shortHeading = $data['short_heading'] ?? 'Who We Are';
-    $mainHeading = $data['main_heading'] ?? 'How can Pro Clean AC help you?';
+    $mainHeading = $data['main_heading'] ?? 'How can ' . $siteName . ' help you?';
     $content = $data['content'] ?? '';
 @endphp
 
@@ -17,7 +19,7 @@
                 </h3>
             @endif
             @if($content)
-                <p class="paragraph-10">{!! nl2br(e($content)) !!}</p>
+                <p class="paragraph-10">{!! $content !!}</p>
             @endif
         </div>
         <div class="container-large-services align-center"></div>

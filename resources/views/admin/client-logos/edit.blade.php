@@ -23,20 +23,54 @@
                 @enderror
             </div>
 
-            @if($clientLogo->logo)
+            @php
+                $logoSource = old('logo_source', $clientLogo->logo_source ?? 'upload');
+                $hasLogo = ($logoSource === 'upload' && $clientLogo->logo) || ($logoSource === 'url' && $clientLogo->logo_url);
+            @endphp
+
+            @if($hasLogo)
             <div class="mb-3">
                 <label class="form-label">Current Logo</label>
                 <div>
-                    <img src="{{ asset('storage/' . $clientLogo->logo) }}" alt="{{ $clientLogo->name }}" style="max-height: 200px;">
+                    @if($logoSource === 'upload' && $clientLogo->logo)
+                    @php
+                        $logoPath = \Illuminate\Support\Str::startsWith($clientLogo->logo, 'uploads/')
+                            ? $clientLogo->logo
+                            : 'uploads/' . ltrim($clientLogo->logo, '/');
+                    @endphp
+                    <img src="{{ asset($logoPath) }}" alt="{{ $clientLogo->name }}" style="max-height: 200px;">
+                    @elseif($logoSource === 'url' && $clientLogo->logo_url)
+                        <img src="{{ $clientLogo->logo_url }}" alt="{{ $clientLogo->name }}" style="max-height: 200px;" onerror="this.style.display='none'">
+                    @endif
                 </div>
             </div>
             @endif
 
             <div class="mb-3">
-                <label for="logo" class="form-label">New Logo</label>
+                <label class="form-label">Logo Source <span class="text-danger">*</span></label>
+                <div class="btn-group w-100" role="group">
+                    <input type="radio" class="btn-check" name="logo_source" id="logo_source_upload" value="upload" {{ $logoSource === 'upload' ? 'checked' : '' }} onchange="toggleLogoSource()">
+                    <label class="btn btn-outline-primary" for="logo_source_upload">Upload Image</label>
+                    
+                    <input type="radio" class="btn-check" name="logo_source" id="logo_source_url" value="url" {{ $logoSource === 'url' ? 'checked' : '' }} onchange="toggleLogoSource()">
+                    <label class="btn btn-outline-primary" for="logo_source_url">Image URL</label>
+                </div>
+            </div>
+
+            <div class="mb-3" id="logo_upload_section" style="display: {{ $logoSource === 'upload' ? 'block' : 'none' }};">
+                <label for="logo" class="form-label">Upload Logo</label>
                 <input type="file" class="form-control @error('logo') is-invalid @enderror" id="logo" name="logo" accept="image/*">
-                <small class="form-text text-muted">Leave empty to keep current logo</small>
+                <small class="form-text text-muted">Leave empty to keep current logo. Supported formats: JPG, PNG, GIF, SVG (Max size: 2MB)</small>
                 @error('logo')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3" id="logo_url_section" style="display: {{ $logoSource === 'url' ? 'block' : 'none' }};">
+                <label for="logo_url" class="form-label">Logo URL</label>
+                <input type="url" class="form-control @error('logo_url') is-invalid @enderror" id="logo_url" name="logo_url" value="{{ old('logo_url', $clientLogo->logo_url) }}" placeholder="https://example.com/logo.png">
+                <small class="form-text text-muted">Enter direct URL to logo image (e.g., CDN link)</small>
+                @error('logo_url')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
@@ -72,5 +106,27 @@
         </form>
     </div>
 </div>
+
+<script>
+function toggleLogoSource() {
+    const uploadRadio = document.getElementById('logo_source_upload');
+    const urlRadio = document.getElementById('logo_source_url');
+    const uploadSection = document.getElementById('logo_upload_section');
+    const urlSection = document.getElementById('logo_url_section');
+    const logoInput = document.getElementById('logo');
+    const logoUrlInput = document.getElementById('logo_url');
+
+    if (uploadRadio.checked) {
+        uploadSection.style.display = 'block';
+        urlSection.style.display = 'none';
+        logoUrlInput.required = false;
+    } else {
+        uploadSection.style.display = 'none';
+        urlSection.style.display = 'block';
+        logoInput.required = false;
+        logoUrlInput.required = true;
+    }
+}
+</script>
 @endsection
 

@@ -17,7 +17,14 @@ class PageController extends Controller
                 }])
                 ->firstOrFail();
 
-            return view('frontend.page', compact('page'));
+            $bodyClass = match ($page->slug) {
+                'services' => 'irhas3 service',
+                'blog' => 'irhas3 blog',
+                'contact' => 'irhas3 contact3',
+                default => null,
+            };
+
+            return view('frontend.page', compact('page', 'bodyClass'));
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             abort(404, 'Page not found: ' . $slug);
         } catch (\Exception $e) {

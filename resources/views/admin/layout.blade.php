@@ -6,6 +6,9 @@
     <title>@yield('title', 'Admin Panel') - CMS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+    <script src="https://cdn.tiny.cloud/1/q5jg3il4p94h9cs2f2agtr3taurgu1obqf2i5hxlkp35n55t/tinymce/6/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -41,8 +44,28 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('admin.section-types.index') }}">
+                                <i class="bi bi-images"></i> Section Types
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('admin.blog-posts.index') }}">
+                                <i class="bi bi-journal-text"></i> Blog Posts
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('admin.blog-categories.index') }}">
+                                <i class="bi bi-bookmarks"></i> Blog Categories
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('admin.services.index') }}">
                                 <i class="bi bi-briefcase"></i> Services
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ route('admin.service-categories.index') }}">
+                                <i class="bi bi-tags"></i> Service Categories
                             </a>
                         </li>
                         <li class="nav-item">
@@ -56,11 +79,25 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('admin.leads.index') }}">
+                            <a class="nav-link text-white position-relative" href="{{ route('admin.leads.index') }}">
                                 <i class="bi bi-envelope"></i> Leads
+                                @php
+                                    $newLeadsCount = \App\Models\Lead::whereDate('created_at', today())->count();
+                                @endphp
+                                @if($newLeadsCount > 0)
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{ $newLeadsCount }}
+                                        <span class="visually-hidden">new leads today</span>
+                                    </span>
+                                @endif
                             </a>
                         </li>
                         <li class="nav-item mt-3">
+                            <a class="nav-link text-white" href="{{ route('admin.profile.edit') }}">
+                                <i class="bi bi-person-circle"></i> Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <form method="POST" action="{{ route('admin.logout') }}">
                                 @csrf
                                 <button type="submit" class="nav-link text-white border-0 bg-transparent w-100 text-start">
@@ -97,6 +134,20 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/q5jg3il4p94h9cs2f2agtr3taurgu1obqf2i5hxlkp35n55t/tinymce/6/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
+    <script>
+        window.tinymceLoaded = new Promise(function(resolve) {
+            if (typeof tinymce !== 'undefined') resolve();
+            else document.addEventListener('DOMContentLoaded', function() {
+                var check = setInterval(function() {
+                    if (typeof tinymce !== 'undefined') { clearInterval(check); resolve(); }
+                }, 50);
+            });
+        });
+    </script>
+    @stack('scripts')
 </body>
 </html>
 

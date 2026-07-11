@@ -13,7 +13,24 @@ class Page extends Model
         'slug',
         'meta_title',
         'meta_description',
+        'meta_keywords',
+        'og_title',
+        'og_description',
+        'og_image',
+        'canonical_url',
+        'schema_markup',
+        'schema_type',
+        'schema_service_type',
+        'schema_area_locality',
+        'schema_area_country',
         'status',
+        'use_new_layout',
+        'use_irhas_layout',
+    ];
+
+    protected $casts = [
+        'use_new_layout' => 'boolean',
+        'use_irhas_layout' => 'boolean',
     ];
 
     protected static function boot()

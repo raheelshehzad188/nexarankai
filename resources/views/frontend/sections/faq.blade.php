@@ -11,14 +11,12 @@
                 @foreach($faqs as $index => $faq)
                     @if(!empty($faq['question']) && !empty($faq['answer']))
                         <div class="accordion-item mb-2">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button {{ $index > 0 ? 'collapsed' : '' }}" type="button" data-bs-toggle="collapse" data-bs-target="#faq{{ $section->id }}_{{ $index }}">
-                                    {{ $faq['question'] }}
-                                </button>
-                            </h2>
+                            <h4 class="accordion-header">
+                                {{ $faq['question'] }}
+                            </h4>
                             <div id="faq{{ $section->id }}_{{ $index }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}" data-bs-parent="#faqAccordion{{ $section->id }}">
                                 <div class="accordion-body">
-                                    {{ $faq['answer'] }}
+                                    {!! $faq['answer'] !!}
                                 </div>
                             </div>
                         </div>

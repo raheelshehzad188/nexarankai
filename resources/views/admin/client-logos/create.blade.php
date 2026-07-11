@@ -23,9 +23,30 @@
             </div>
 
             <div class="mb-3">
-                <label for="logo" class="form-label">Logo <span class="text-danger">*</span></label>
-                <input type="file" class="form-control @error('logo') is-invalid @enderror" id="logo" name="logo" accept="image/*" required>
+                <label class="form-label">Logo Source <span class="text-danger">*</span></label>
+                <div class="btn-group w-100" role="group">
+                    <input type="radio" class="btn-check" name="logo_source" id="logo_source_upload" value="upload" checked onchange="toggleLogoSource()">
+                    <label class="btn btn-outline-primary" for="logo_source_upload">Upload Image</label>
+                    
+                    <input type="radio" class="btn-check" name="logo_source" id="logo_source_url" value="url" onchange="toggleLogoSource()">
+                    <label class="btn btn-outline-primary" for="logo_source_url">Image URL</label>
+                </div>
+            </div>
+
+            <div class="mb-3" id="logo_upload_section">
+                <label for="logo" class="form-label">Upload Logo <span class="text-danger">*</span></label>
+                <input type="file" class="form-control @error('logo') is-invalid @enderror" id="logo" name="logo" accept="image/*">
+                <small class="form-text text-muted">Supported formats: JPG, PNG, GIF, SVG (Max size: 2MB)</small>
                 @error('logo')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3" id="logo_url_section" style="display: none;">
+                <label for="logo_url" class="form-label">Logo URL <span class="text-danger">*</span></label>
+                <input type="url" class="form-control @error('logo_url') is-invalid @enderror" id="logo_url" name="logo_url" value="{{ old('logo_url') }}" placeholder="https://example.com/logo.png">
+                <small class="form-text text-muted">Enter direct URL to logo image (e.g., CDN link)</small>
+                @error('logo_url')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
@@ -61,5 +82,30 @@
         </form>
     </div>
 </div>
+
+<script>
+function toggleLogoSource() {
+    const uploadRadio = document.getElementById('logo_source_upload');
+    const urlRadio = document.getElementById('logo_source_url');
+    const uploadSection = document.getElementById('logo_upload_section');
+    const urlSection = document.getElementById('logo_url_section');
+    const logoInput = document.getElementById('logo');
+    const logoUrlInput = document.getElementById('logo_url');
+
+    if (uploadRadio.checked) {
+        uploadSection.style.display = 'block';
+        urlSection.style.display = 'none';
+        logoInput.required = true;
+        logoUrlInput.required = false;
+        logoUrlInput.value = '';
+    } else {
+        uploadSection.style.display = 'none';
+        urlSection.style.display = 'block';
+        logoInput.required = false;
+        logoUrlInput.required = true;
+        logoInput.value = '';
+    }
+}
+</script>
 @endsection
 

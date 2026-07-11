@@ -11,6 +11,7 @@ class Testimonial extends Model
         'review',
         'rating',
         'image',
+        'image_alt',
         'status',
     ];
 

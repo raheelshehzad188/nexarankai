@@ -1,0 +1,155 @@
+<?php
+
+return [
+    'irhas-about' => [
+        'eyebrow' => 'WELCOME TO IRHAS',
+        'title' => 'Crafting Digital Experiences',
+        'description' => 'A rationale of few he language continues sign roasted detailed gain, objects out I so the up date defined was of once him, was a read is to our the him, guest editorials.',
+        'button_text' => 'Discover More',
+        'button_url' => '#',
+        'video_url' => 'https://www.youtube.com/watch?v=BsafeSHN_II',
+        'video_poster' => 'img/img-video-irhas3.png',
+        'secondary_image' => 'img/smartobject4-origin.png',
+    ],
+    'irhas-portfolio' => [
+        'eyebrow' => 'Our Project',
+        'title' => 'Completed Projects',
+        'description' => 'Trusted rationale with it live stairs is found anyone horrible mild, be to where dreams, live the devious insidious a and be he\'d entered be much sleepiness his the all arches to their dry dressing to over valuable.',
+        'button_text' => 'View All Projects',
+        'button_url' => '#',
+        'items' => [
+            [
+                'title' => 'Future Program Business',
+                'category' => 'Marketing',
+                'excerpt' => 'Bed on excessive of alphabet design of our in...',
+                'image' => 'img/project-1-irhas3.png',
+                'link' => '#',
+            ],
+            [
+                'title' => 'Management Audit Business',
+                'category' => 'Additional',
+                'excerpt' => 'Bed on excessive of alphabet design of our in...',
+                'image' => 'img/project-1-irhas3.png',
+                'link' => '#',
+            ],
+            [
+                'title' => 'Corporation Those Investors',
+                'category' => 'Additional',
+                'excerpt' => 'Bed on excessive of alphabet design of our in...',
+                'image' => 'img/project-1-irhas3.png',
+                'link' => '#',
+            ],
+            [
+                'title' => 'Limited Liability Company',
+                'category' => 'Journey',
+                'excerpt' => 'Bed on excessive of alphabet design of our in...',
+                'image' => 'img/project-1-irhas3.png',
+                'link' => '#',
+            ],
+        ],
+    ],
+    'irhas-services' => [
+        'eyebrow' => 'Service',
+        'title' => 'What We Can Do',
+        'description' => 'Ever starting it the them it caught parameters ever would as to thousands consider sentences gradual great studies the in and each enough state immense is.',
+        'button_text' => 'View all service',
+        'button_url' => '/services',
+        'items' => [
+            [
+                'title' => 'Referral Service Management',
+                'category' => 'government',
+                'image' => 'img/service-3-irhas3.png',
+                'link' => '/services/referral-service-management',
+            ],
+            [
+                'title' => 'Personal Service Development',
+                'category' => 'creative',
+                'image' => 'img/service-3-irhas3.png',
+                'link' => '/services/personal-service-development',
+            ],
+            [
+                'title' => 'Strategy Business Management',
+                'category' => 'creative',
+                'image' => 'img/service-3-irhas3.png',
+                'link' => '/services/strategy-business-management',
+            ],
+            [
+                'title' => 'Partnership Quality Member',
+                'category' => 'adversitising',
+                'image' => 'img/service-3-irhas3.png',
+                'link' => '/services/partnership-quality-member',
+            ],
+        ],
+    ],
+    'irhas-testimonial' => [
+        'eyebrow' => 'Testimonial',
+        'title' => 'What Our Clients Say.',
+        'title_mobile' => 'What Our Client Says',
+        'description' => 'Ever starting it the them it caught parameters ever would as to thousands consider sentences gradual great studies the in and each enough state immense is.',
+        'button_text' => 'Contact Us',
+        'button_url' => '#',
+        'side_image' => 'img/smartobject5.png',
+        'items' => [
+            [
+                'author' => 'Winston Churchill',
+                'job' => 'Client',
+                'quote' => 'Particularly to tone on the are seen, cheerful, you him this period, have to to audience.',
+            ],
+            [
+                'author' => 'Richard Bronson',
+                'job' => 'Client',
+                'quote' => 'Particularly to tone on the are seen, cheerful, you him this period, have to to audience.',
+            ],
+        ],
+    ],
+    'irhas-counter' => [
+        'items' => [
+            [
+                'prefix' => '',
+                'suffix' => '',
+                'number' => '129847',
+                'label' => 'Clients from 60 Countries',
+            ],
+            [
+                'prefix' => '$',
+                'suffix' => '',
+                'number' => '796882',
+                'label' => 'in Average Saving',
+            ],
+            [
+                'prefix' => '',
+                'suffix' => '%',
+                'number' => '89',
+                'label' => 'Client Recommend',
+            ],
+        ],
+    ],
+    'irhas-blog' => [
+        'eyebrow' => 'Our Blog',
+        'title' => 'Latest News',
+        'posts_limit' => '4',
+        'view_all_text' => 'View All Posts',
+        'view_all_url' => '/blog',
+    ],
+    'irhas-blog-list' => [
+        'banner_eyebrow' => 'Blog',
+        'banner_title' => 'Our Journal',
+    ],
+    'irhas-services-list' => [
+        'banner_eyebrow' => 'Service',
+        'banner_title' => 'What We Have.',
+        'default_card_image' => 'img/service-1-service-page-irhas-3.png',
+        'contact_title' => 'We have 24 years experience in Digital Agency',
+        'contact_description' => 'Have just introduced pane, go when or over were this the it human who assignment. To concepts.',
+        'contact_button_text' => 'Contact Us',
+        'contact_button_url' => '/contact',
+    ],
+    'irhas-contact' => [
+        'eyebrow' => 'Contact Us',
+        'title' => 'Get in touch',
+        'map_embed_url' => 'https://maps.google.com/maps?q=London%20Eye%2C%20London%2C%20United%20Kingdom&t=m&z=18&output=embed&iwloc=near',
+        'weekday_hours' => 'MON-FRI 09:00 – 19:00',
+        'weekend_hours' => 'SAT-SUN 10:00 – 14:00',
+        'submit_button_text' => 'Send Message',
+    ],
+];

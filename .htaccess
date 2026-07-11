@@ -1,15 +1,29 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    
-    # Redirect to public directory
-    RewriteCond %{REQUEST_URI} !^/public/
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ public/$1 [L]
-    
-    # If accessing root, use index.php
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^ index.php [L]
-</IfModule>
 
+    # =====================================
+    # 1️⃣ Sitemap.xml WITHOUT /public
+    # =====================================
+    RewriteCond %{REQUEST_URI} ^/sitemap\.xml$
+    RewriteCond %{DOCUMENT_ROOT}/public/sitemap.xml -f
+    RewriteRule ^sitemap\.xml$ public/sitemap.xml [L]
+
+    # =====================================
+    # 2️⃣ Serve uploads WITHOUT /public
+    # =====================================
+    RewriteCond %{REQUEST_URI} ^/uploads/(.*)$
+    RewriteCond %{DOCUMENT_ROOT}/public/uploads/%1 -f
+    RewriteRule ^uploads/(.*)$ public/uploads/$1 [L]
+
+    # =====================================
+    # 3️⃣ If real file or folder exists
+    # =====================================
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # =====================================
+    # 4️⃣ Laravel front controller
+    # =====================================
+    RewriteRule ^ public/index.php [L]
+</IfModule>

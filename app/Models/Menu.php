@@ -41,8 +41,13 @@ class Menu extends Model
     public function getUrl()
     {
         if ($this->link_type === 'page' && $this->page) {
+            if ($this->page->slug === 'home') {
+                return '/';
+            }
+
             return '/' . $this->page->slug;
         }
+
         return $this->attributes['url'] ?? '#';
     }
 

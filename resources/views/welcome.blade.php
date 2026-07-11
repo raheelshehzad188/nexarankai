@@ -1,6 +1,3 @@
-<?php
-$assets_url = asset('assets/dubai');
-?>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
 <head>
@@ -46,7 +43,7 @@ a:active  { text-decoration: underline; }
 	border-bottom: 6px solid #000;
 	padding: 10px;  padding-top: 20px;
 	line-height: 1.65em;
-	background-image: url({{ $assets_url }}/imgs/imgs/backblue.gif);
+	background-image: url({{ asset('assets/dubai/imgs/imgs/backblue.gif') }});
 	background-repeat: no-repeat;
 	background-position: top right;
 	}
@@ -71,7 +68,7 @@ h4 { margin: 0;  font-weight: bold;  font-size: 1.18em; }
 .tableWidth { min-width: 400px; }
 
 .tblRegular       { border-collapse: collapse; }
-.tblRegular td    { padding: 6px;  background-image: url({{ $assets_url }}/imgs/imgs/fade.gif);  border: 2px solid #99c; }
+.tblRegular td    { padding: 6px;  background-image: url({{ asset('assets/dubai/imgs/imgs/fade.gif') }});  border: 2px solid #99c; }
 .tblHeaderColor, .tblHeaderColor td { background: #99c; }
 .tblNoBorder td   { border: 0; }
 
@@ -104,7 +101,7 @@ h4 { margin: 0;  font-weight: bold;  font-size: 1.18em; }
 <H1 ALIGN=Center>Index of locally available sites:</H1>
 	<TABLE BORDER="0" WIDTH="100%" CELLSPACING="1" CELLPADDING="0">
 		<TR>
-			<TD BACKGROUND="{{ $assets_url }}/imgs/imgs/fade.gif">
+			<TD BACKGROUND="{{ asset('assets/dubai/imgs/imgs/fade.gif') }}">
 				&middot;
 					<A HREF="www.proclean-ac.com/index.html">
 						AC Cleaning in Dubai - AC Duct Cleaning | Pro Clean AC
