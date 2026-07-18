@@ -1,6 +1,7 @@
 @extends(
-    $page->use_irhas_layout ? 'frontend.layout-irhas' :
-    ($page->use_new_layout ? 'frontend.layout-new' : 'frontend.layout')
+    $page->use_irhas2_layout ? 'frontend.layout-irhas2' :
+    ($page->use_irhas_layout ? 'frontend.layout-irhas' :
+    ($page->use_new_layout ? 'frontend.layout-new' : 'frontend.layout'))
 )
 
 @section('title', $page->meta_title ?? $page->title)

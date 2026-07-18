@@ -43,7 +43,14 @@ Route::get('/', function () {
         return view('frontend.home', compact('pages'));
     }
 
-    return view('frontend.page', compact('page'));
+    $bodyClass = null;
+    if ($page->use_irhas2_layout) {
+        $bodyClass = 'irhas2 home2';
+    } elseif ($page->use_irhas_layout) {
+        $bodyClass = 'irhas3 home3';
+    }
+
+    return view('frontend.page', compact('page', 'bodyClass'));
 })->name('home');
 
 // ============================================
@@ -77,6 +84,11 @@ Route::get('/contact', function () {
     }
 
     $bodyClass = 'irhas3 contact3';
+    if ($page->use_irhas2_layout) {
+        $bodyClass = 'irhas2 contact';
+    } elseif ($page->use_irhas_layout) {
+        $bodyClass = 'irhas3 contact3';
+    }
     
     return view('frontend.page', compact('page', 'bodyClass'));
 })->name('contact');

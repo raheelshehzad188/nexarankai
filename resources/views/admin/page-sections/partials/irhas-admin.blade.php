@@ -65,21 +65,24 @@ window.IrhasAdmin = {
         },
         'irhas-blog-list': {
             label: 'Irhas - All Blog Posts Page',
-            fields: [
-                { key: 'banner_eyebrow', label: 'Banner Eyebrow', type: 'text' },
-                { key: 'banner_title', label: 'Banner Title', type: 'text' },
-            ],
+            fields: [],
         },
         'irhas-services-list': {
             label: 'Irhas - All Services Page',
             fields: [
-                { key: 'banner_eyebrow', label: 'Banner Eyebrow', type: 'text' },
-                { key: 'banner_title', label: 'Banner Title', type: 'text' },
                 { key: 'default_card_image', label: 'Default Card Image (theme path or URL)', type: 'text' },
                 { key: 'contact_title', label: 'Contact Banner Title', type: 'text' },
                 { key: 'contact_description', label: 'Contact Banner Description', type: 'textarea', rows: 3 },
                 { key: 'contact_button_text', label: 'Contact Button Text', type: 'text' },
                 { key: 'contact_button_url', label: 'Contact Button URL', type: 'text' },
+            ],
+        },
+        'irhas-page-banner': {
+            label: 'Irhas - Page Top Banner',
+            fields: [
+                { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+                { key: 'title', label: 'Title', type: 'text' },
+                { key: 'background_image', label: 'Background Image (theme path, uploads path, or URL)', type: 'text' },
             ],
         },
         'irhas-contact': {
@@ -93,10 +96,82 @@ window.IrhasAdmin = {
                 { key: 'submit_button_text', label: 'Submit Button Text', type: 'text' },
             ],
         },
+        'irhas2-hero': {
+            label: 'Home2 - Hero',
+            fields: [
+                { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+                { key: 'title', label: 'Title', type: 'text' },
+                { key: 'description', label: 'Description', type: 'textarea', rows: 3 },
+                { key: 'button_text', label: 'Button Text', type: 'text' },
+                { key: 'button_url', label: 'Button URL', type: 'text' },
+                { key: 'background_image', label: 'Background Image', type: 'text' },
+            ],
+        },
+        'irhas2-features': {
+            label: 'Home2 - Features',
+            fields: [
+                { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+                { key: 'title', label: 'Title', type: 'text' },
+                { key: 'description', label: 'Description', type: 'textarea', rows: 3 },
+            ],
+            repeater: { key: 'items', label: 'Feature Items', subfields: ['title', 'excerpt', 'image'], min: 1 },
+        },
+        'irhas2-portfolio': {
+            label: 'Home2 - Portfolio',
+            fields: [
+                { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+                { key: 'title', label: 'Title', type: 'text' },
+                { key: 'description', label: 'Description', type: 'textarea', rows: 3 },
+                { key: 'button_text', label: 'Button Text', type: 'text' },
+                { key: 'button_url', label: 'Button URL', type: 'text' },
+                { key: 'read_more_text', label: 'Read More Text', type: 'text' },
+            ],
+            repeater: { key: 'items', label: 'Projects', subfields: ['title', 'category', 'excerpt', 'image', 'link'], min: 1 },
+        },
+        'irhas2-about-video': {
+            label: 'Home2 - About Video',
+            fields: [
+                { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+                { key: 'title', label: 'Title', type: 'text' },
+                { key: 'quote', label: 'Quote', type: 'textarea', rows: 2 },
+                { key: 'description', label: 'Description', type: 'textarea', rows: 3 },
+                { key: 'video_url', label: 'Video URL', type: 'url' },
+                { key: 'video_poster', label: 'Video Poster Image', type: 'text' },
+                { key: 'secondary_image', label: 'Secondary Image', type: 'text' },
+            ],
+        },
+        'irhas2-team': {
+            label: 'Home2 - Team',
+            fields: [
+                { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+                { key: 'title', label: 'Title', type: 'text' },
+                { key: 'description', label: 'Description', type: 'textarea', rows: 3 },
+                { key: 'button_text', label: 'Button Text', type: 'text' },
+                { key: 'button_url', label: 'Button URL', type: 'text' },
+            ],
+            repeater: { key: 'items', label: 'Team Members', subfields: ['name', 'role', 'image', 'facebook', 'twitter', 'linkedin'], min: 1 },
+        },
+        'irhas2-testimonial': {
+            label: 'Home2 - Testimonial',
+            fields: [
+                { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+                { key: 'title', label: 'Title', type: 'text' },
+            ],
+            repeater: { key: 'items', label: 'Testimonials', subfields: ['quote', 'author', 'job', 'logo'], min: 1 },
+        },
+        'irhas2-blog': {
+            label: 'Home2 - Blog',
+            fields: [
+                { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+                { key: 'title', label: 'Title', type: 'text' },
+                { key: 'posts_limit', label: 'Number of Posts', type: 'text' },
+                { key: 'default_image', label: 'Default Image', type: 'text' },
+            ],
+        },
     },
 
     isType(type) {
-        return type && type.startsWith('irhas-');
+        return type && (type.startsWith('irhas-') || type.startsWith('irhas2-'));
     },
 
     esc(value) {
@@ -151,6 +226,12 @@ window.IrhasAdmin = {
         }
         if (type === 'irhas-contact') {
             html += `<div class="alert alert-secondary py-2 mb-3 small">Phone, email, address and social links load from <strong>Admin → Site Settings</strong>. Service dropdown loads from <strong>Admin → Services</strong>.</div>`;
+        }
+        if (type === 'irhas-page-banner') {
+            html += `<div class="alert alert-secondary py-2 mb-3 small">Top page banner. Set <strong>Background Image</strong> to a theme path (e.g. img/banner-header-service.png), uploads path, or full URL.</div>`;
+        }
+        if (type && type.startsWith('irhas2-')) {
+            html += `<div class="alert alert-secondary py-2 mb-3 small">Home 2 section — used with <strong>Irhas Home 2 layout</strong>. Blog posts load from Admin → Blog Posts when using Home2 Blog.</div>`;
         }
         html += `<label class="form-label fw-semibold">${config.label}</label>`;
         (config.fields || []).forEach((field) => html += this.fieldHtml(field, data[field.key] || ''));

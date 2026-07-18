@@ -26,11 +26,13 @@ class Page extends Model
         'status',
         'use_new_layout',
         'use_irhas_layout',
+        'use_irhas2_layout',
     ];
 
     protected $casts = [
         'use_new_layout' => 'boolean',
         'use_irhas_layout' => 'boolean',
+        'use_irhas2_layout' => 'boolean',
     ];
 
     protected static function boot()

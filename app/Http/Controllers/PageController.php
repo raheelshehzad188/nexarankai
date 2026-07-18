@@ -17,12 +17,7 @@ class PageController extends Controller
                 }])
                 ->firstOrFail();
 
-            $bodyClass = match ($page->slug) {
-                'services' => 'irhas3 service',
-                'blog' => 'irhas3 blog',
-                'contact' => 'irhas3 contact3',
-                default => null,
-            };
+            $bodyClass = $this->resolveBodyClass($page);
 
             return view('frontend.page', compact('page', 'bodyClass'));
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
@@ -30,5 +25,28 @@ class PageController extends Controller
         } catch (\Exception $e) {
             abort(500, 'Error: ' . $e->getMessage());
         }
+    }
+
+    private function resolveBodyClass(Page $page): ?string
+    {
+        if ($page->use_irhas2_layout) {
+            return match ($page->slug) {
+                'services' => 'irhas2 service',
+                'blog' => 'irhas2 blog',
+                'contact' => 'irhas2 contact',
+                default => 'irhas2 home2',
+            };
+        }
+
+        if ($page->use_irhas_layout) {
+            return match ($page->slug) {
+                'services' => 'irhas3 service',
+                'blog' => 'irhas3 blog',
+                'contact' => 'irhas3 contact3',
+                default => 'irhas3 home3',
+            };
+        }
+
+        return null;
     }
 }

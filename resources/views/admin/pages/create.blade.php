@@ -87,25 +87,20 @@
             </div>
 
             <div class="mb-3">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="use_irhas_layout" name="use_irhas_layout" value="1"
-                        {{ old('use_irhas_layout') ? 'checked' : '' }}>
-                    <label class="form-check-label" for="use_irhas_layout">
-                        Use Irhas Layout (Home 3)
-                    </label>
-                </div>
-                <small class="form-text text-muted">Enable Irhas Home 3 theme layout with its header/footer and section styles.</small>
-            </div>
-
-            <div class="mb-3">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="use_new_layout" name="use_new_layout" value="1"
-                        {{ old('use_new_layout') ? 'checked' : '' }}>
-                    <label class="form-check-label" for="use_new_layout">
-                        Use New Layout
-                    </label>
-                </div>
-                <small class="form-text text-muted">Enable alternate full-page design (no default site header/footer). Use with "new-full" section type.</small>
+                <label for="layout" class="form-label">Page Layout <span class="text-danger">*</span></label>
+                <select class="form-select @error('layout') is-invalid @enderror" id="layout" name="layout" required>
+                    <option value="default" {{ old('layout', 'default') === 'default' ? 'selected' : '' }}>Default Layout</option>
+                    <option value="irhas" {{ old('layout') === 'irhas' ? 'selected' : '' }}>Irhas Layout (Home 3)</option>
+                    <option value="irhas2" {{ old('layout') === 'irhas2' ? 'selected' : '' }}>Irhas Layout (Home 2)</option>
+                    <option value="new" {{ old('layout') === 'new' ? 'selected' : '' }}>New Layout</option>
+                </select>
+                <small class="form-text text-muted">
+                    Choose which header/footer shell this page uses. Sections still come from the database for that page.
+                    <br>Home 2 = header-style-2 + home2 footer. Home 3 = irhas3 header/footer.
+                </small>
+                @error('layout')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-3">

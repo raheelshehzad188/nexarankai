@@ -38,16 +38,15 @@ class PageController extends Controller
             'schema_area_locality' => 'nullable|string|max:100',
             'schema_area_country' => 'nullable|string|max:100',
             'status' => 'required|in:draft,published',
-            'use_new_layout' => 'nullable|boolean',
-            'use_irhas_layout' => 'nullable|boolean',
+            'layout' => 'required|in:default,irhas,irhas2,new',
         ]);
 
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['title']);
         }
 
-        $validated['use_new_layout'] = $request->has('use_new_layout') && $request->input('use_new_layout') == '1';
-        $validated['use_irhas_layout'] = $request->has('use_irhas_layout') && $request->input('use_irhas_layout') == '1';
+        $this->applyLayoutFlags($validated, $validated['layout']);
+        unset($validated['layout']);
 
         Page::create($validated);
         return redirect()->route('admin.pages.index')->with('success', 'Page created successfully!');
@@ -76,12 +75,11 @@ class PageController extends Controller
             'schema_area_locality' => 'nullable|string|max:100',
             'schema_area_country' => 'nullable|string|max:100',
             'status' => 'required|in:draft,published',
-            'use_new_layout' => 'nullable|boolean',
-            'use_irhas_layout' => 'nullable|boolean',
+            'layout' => 'required|in:default,irhas,irhas2,new',
         ]);
 
-        $validated['use_new_layout'] = $request->has('use_new_layout') && $request->input('use_new_layout') == '1';
-        $validated['use_irhas_layout'] = $request->has('use_irhas_layout') && $request->input('use_irhas_layout') == '1';
+        $this->applyLayoutFlags($validated, $validated['layout']);
+        unset($validated['layout']);
 
         $page->update($validated);
         return redirect()->route('admin.pages.index')->with('success', 'Page updated successfully!');
@@ -91,5 +89,15 @@ class PageController extends Controller
     {
         $page->delete();
         return redirect()->route('admin.pages.index')->with('success', 'Page deleted successfully!');
+    }
+
+    /**
+     * Map a single layout select value onto the boolean layout flags.
+     */
+    private function applyLayoutFlags(array &$validated, string $layout): void
+    {
+        $validated['use_irhas2_layout'] = $layout === 'irhas2';
+        $validated['use_irhas_layout'] = $layout === 'irhas';
+        $validated['use_new_layout'] = $layout === 'new';
     }
 }

@@ -4,18 +4,6 @@
     $posts = \App\Models\BlogPost::publishedList();
 @endphp
 
-<div class="banner-header-style2">
-    <div class="banner-header-style2-overlay"></div>
-    <div class="thaw-container">
-        <div class="title-banner-style2-wrap grid grid-cols-12">
-            <div class="title-banner-style2 the-title col-span-12" data-aos="fade-up">
-                @if(I::get($data, 'banner_eyebrow'))<h5>{{ I::get($data, 'banner_eyebrow') }}</h5>@endif
-                @if(I::get($data, 'banner_title'))<h2>{{ I::get($data, 'banner_title') }}</h2>@endif
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="blog-block">
     <div class="thaw-container">
         @if($posts->count())
